@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "libft/libft.h"
 
 int	is_empty_line(char *line)
 {
@@ -45,6 +46,22 @@ int	is_map_char(char **line)
 				return (0);
 			j++;
 		}
+		i++;
+	}
+	return (1);
+}
+
+int	is_map_char_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != '0' && line[i] != 'N'
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
+			&& line[i] != ' ' && line[i] != '\n')
+			return (0);
 		i++;
 	}
 	return (1);
@@ -86,12 +103,53 @@ char	**function_to_name(char *line, int fd)
 				* sizeof(char *));
 		if (temp_map == NULL)
 			return (free(line), NULL);
-		if(!is_empty_line(line))
-			temp_map[i] = ft_strdup(line);
-		//need to slove \n after map and between map
+		if(!is_map_char_line(line))
+			return (free_array(temp_map), free(line), NULL);
+		temp_map[i] = ft_strtrim(line, "\n");
 		free(line);
-		line = NULL;
 		line = get_next_line(fd);
+		i++;
+	}
+	temp_map[i] = NULL;
+	return (temp_map);
+}
+
+int	check_middle_lines(char **map)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	while (map[i])
+	{
+		if (flag == 0 && is_empty_line(map[i]))
+			flag++;
+		if (!is_empty_line(map[i]) && flag != 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	**remove_map_empty_lines(char **map)
+{
+	int		i;
+	char	**temp_map;
+
+	i = 0;
+	temp_map = NULL;
+	if (!check_middle_lines(map))
+			return (NULL);
+	while (map[i])
+	{
+		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
+				* sizeof(char *));
+		if (temp_map == NULL)
+			return (free(map), NULL);
+		if(!is_empty_line(map[i]))
+			temp_map[i] = ft_strdup(map[i]);
+		free(map[i]);
 		i++;
 	}
 	temp_map[i] = NULL;
@@ -101,9 +159,11 @@ char	**function_to_name(char *line, int fd)
 char	**re_build_map(int fd)
 {
 	char	**temp_map;
+	char	**map;
 	char	*line;
 
 	temp_map = NULL;
+	map = NULL;
 	line = get_next_line(fd);
 	if (!line)
 		return (NULL);
@@ -113,7 +173,11 @@ char	**re_build_map(int fd)
 		line = get_next_line(fd);
 	}
 	temp_map = function_to_name(line, fd);
-	return (temp_map);
+	if(!temp_map)
+		return (NULL);
+	map = remove_map_empty_lines(temp_map);
+	free_array(temp_map);
+	return (map);
 }
 
 // char	**parse_new_map(char **map)
