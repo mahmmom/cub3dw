@@ -12,33 +12,33 @@
 
 #include "cub3d.h"
 
-// int	walls_up_down(char **map)
-// {
-// 	return (1);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int	final_2dmap(t_data *data)
+int	walls_checker(char **map)
 {
-	//print_array(data->map.map_data);
-	data->map.height = array_size(data->map.map_data);
-	data->map.width = array_width(data->map.map_data);
-	//walls_up_down(data);
-	return (1);
+	size_t	i;
+
+	i = -1;
+	while (map[++i])
+		if ((map[i][0] != '1' && map[i][0] != ' ')
+			|| (map[i][ft_strlen(map[i])] != '1'
+			&& map[i][ft_strlen(map[i])] != ' '))
+			return(0);
+	i = -1;
+	while (++i < ft_strlen(map[0]))
+		if (map[0][i] != '1' && map[0][i] != ' ')
+			return(0);
+	i = -1;
+	while (++i < ft_strlen(map[array_size(map) - 1]))
+		if (map[array_size(map)][i] != '1'
+		&& map[array_size(map)][i] != ' ')
+			return(0);
+	return(1);
+}
+
+
+int	final_2dmap(char **map)
+{
+	if(!walls_checker(map))
+		return (error_exit(WALLS_ERR), WALLS_ERR);
+
+	return (CORRECT);
 }

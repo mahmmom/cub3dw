@@ -44,6 +44,7 @@
 # define E_OPEN "Cant open file"
 # define E_INVALID "Invalid Error type"
 # define E_DUPLICATE "Duplicate Map Element"
+# define E_WALLS "Map Walls are not closed"
 
 typedef enum e_error
 {
@@ -59,6 +60,7 @@ typedef enum e_error
 	MALLOC_ERR,
 	OPEN_ERR,
 	DUP_ERR,
+	WALLS_ERR,
 }			t_error;
 
 typedef struct s_map
@@ -106,7 +108,7 @@ char		**re_build_map(int fd);
 char		**parse_new_map(char **map);
 int			is_map_char(char **line);
 int			is_empty_line(char *line);
-int			final_2dmap(t_data *data);
+int			final_2dmap(char **map);
 
 
 // Colors

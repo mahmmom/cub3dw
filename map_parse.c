@@ -35,13 +35,8 @@ int	get_map(t_data *data, int fd)
 	temp_map = re_build_map(fd);
 	if (!temp_map)
 		return (error_exit(MAP_ERR), MAP_ERR);
-	// if (is_map_char(temp_map) == 0)
-	// 	return (free_array(temp_map), error_exit(MAP_ERR), MAP_ERR);
-	print_array(temp_map);
-	// we do this step at the end
-	//map_to_struct(data, temp_map);
+	if (final_2dmap(temp_map) != CORRECT)
+		return (free_array(temp_map), MAP_ERR);
 	free_array(temp_map);
-	// if (final_2dmap(data) == 0)
-	// 	return (error_exit(MAP_ERR), MAP_ERR);
 	return (CORRECT);
 }

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft/libft.h"
 
 int	is_empty_line(char *line)
 {
@@ -176,35 +175,8 @@ char	**re_build_map(int fd)
 	if(!temp_map)
 		return (NULL);
 	map = remove_map_empty_lines(temp_map);
-	free_array(temp_map);
+	if (!map)
+		return (free_array(temp_map), NULL);
+	//free_array(temp_map);
 	return (map);
 }
-
-// char	**parse_new_map(char **map)
-// {
-// 	char	**temp_map;
-// 	int		i;
-// 	int		count;
-
-// 	i = 0;
-// 	count = -1;
-// 	temp_map = NULL;
-// 	// while (is_empty_line(map[i]) == 1)
-// 	// 	i++;
-// 	while (map[i])
-// 	{
-// 		if (is_empty_line(map[i]) == 1)
-// 			return (free_array(temp_map), NULL);
-// 		count++;
-// 		temp_map = (char **)ft_realloc(temp_map, count * sizeof(char *), (count
-// 					+ 2) * sizeof(char *));
-// 		if (temp_map == NULL)
-// 			return (free_array(temp_map), NULL);
-// 		temp_map[count] = ft_strdup(map[i]);
-// 		if (!temp_map[count])
-// 			return (free_array(temp_map), NULL);
-// 		i++;
-// 	}
-// 	temp_map[count + 1] = NULL;
-// 	return (temp_map);
-// }
