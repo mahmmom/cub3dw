@@ -73,6 +73,8 @@ void	error_exit(enum e_error	value)
 		return (print_error(E_EMPTY));
 	else if (value == WALLS_ERR)
 		return (print_error(E_WALLS));
+	else if (value == D_PLAYER_ERR)
+		return (print_error(E_D_PLAYER));
 	else
 		return (print_error(E_INVALID));
 }

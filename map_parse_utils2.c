@@ -11,29 +11,28 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft/libft.h"
 
-// int	walls_checker(char **map)
-// {
-// 	size_t	i;
+int walls_checker(char **map)
+{
+    size_t  i;
 
-// 	i = -1;
-// 	while (map[++i])
-// 		if ((map[i][0] != '1' && map[i][0] != ' ')
-// 			|| (map[i][ft_strlen(map[i])] != '1'
-// 			&& map[i][ft_strlen(map[i])] != ' '))
-// 			return(0);
-// 	i = -1;
-// 	while (++i < ft_strlen(map[0]))
-// 		if (map[0][i] != '1' && map[0][i] != ' ')
-// 			return(0);
-// 	i = -1;
-// 	while (++i < ft_strlen(map[array_size(map) - 1]))
-// 		if (map[array_size(map)][i] != '1'
-// 		&& map[array_size(map)][i] != ' ')
-// 			return(0);
-// 	return(1);
-// }
+    i = -1;
+    while (map[++i])
+        if ((map[i][0] != '1' && map[i][0] != ' ')
+            || (map[i][ft_strlen(map[i]) - 1] != '1'
+            && map[i][ft_strlen(map[i]) - 1] != ' '))
+            return(0);
+    i = -1;
+    while (++i < ft_strlen(map[0]))
+        if (map[0][i] != '1' && map[0][i] != ' ')
+            return(0);
+    i = -1;
+    while (++i < ft_strlen(map[array_size(map) - 1]))
+        if (map[array_size(map) - 1][i] != '1'
+        && map[array_size(map) - 1][i] != ' ')
+            return(0);
+    return(1);
+}
 
 // int	left_right(char **map)
 // {
@@ -47,40 +46,70 @@
 // 	return (1);
 // }
 
-int walls_checker(char **map)
+// int walls_checker(char **map)
+// {
+//     int i;
+//     int len;
+//     int last_row;
+
+//     i = -1;
+//     while (map[++i])
+//     {
+//         len = ft_strlen(map[i]);
+//         if (map[i][len - 1] != '1' && map[i][len - 1] != ' ')
+//             return 0;
+//     }
+//     i = -1;
+//     while (map[++i])
+//         if (map[i][0] != '1' && map[i][0] != ' ')
+//             return 0;
+//     i = -1;
+//     while (map[0][++i])
+//         if (map[0][i] != '1' && map[0][i] != ' ')
+//             return 0;
+//     i = -1;
+//     last_row = array_size(map) - 1;
+//     while (map[last_row][++i])
+//         if (map[last_row][i] != '1' && map[last_row][i] != ' ')
+//             return 0;
+//     return 1;
+// }
+
+int player_double(char **map)
 {
     int i;
-    int len;
-    int last_row;
+    int j;
+    int flag;
 
-    i = -1;
-    while (map[++i])
+    i = 0;
+    flag = 0;
+    while (map[i])
     {
-        len = ft_strlen(map[i]);
-        if (map[i][len - 1] != '1' && map[i][len - 1] != ' ')
-            return 0;
+        j = 0;
+        while (map[i][j])
+        {
+            if (map[i][j] == 'N' || map[i][j] == 'S'
+                || map[i][j] == 'E' || map[i][j] == 'W')
+                {
+                    map[i][j] = '0';
+                    flag++;
+                }
+            j++;
+        }
+        i++;
     }
-    i = -1;
-    while (map[++i])
-        if (map[i][0] != '1' && map[i][0] != ' ')
-            return 0;
-    i = -1;
-    while (map[0][++i])
-        if (map[0][i] != '1' && map[0][i] != ' ')
-            return 0;
-    i = -1;
-    last_row = array_size(map) - 1;
-    while (map[last_row][++i])
-        if (map[last_row][i] != '1' && map[last_row][i] != ' ')
-            return 0;
-    return 1;
+    if (flag != 1)
+        return (0);
+    return (1);
 }
 
 
-int	final_2dmap(char **map)
+int final_2dmap(char **map)
 {
-	if(!walls_checker(map))
-		return (error_exit(WALLS_ERR), WALLS_ERR);
-	print_array(map);
-	return (CORRECT);
+    if(!walls_checker(map))
+        return (error_exit(WALLS_ERR), WALLS_ERR);
+    if(!player_double(map))
+        return (error_exit(D_PLAYER_ERR), D_PLAYER_ERR);
+    print_array(map);
+    return (CORRECT);
 }

@@ -45,6 +45,7 @@
 # define E_INVALID "Invalid Error type"
 # define E_DUPLICATE "Duplicate Map Element"
 # define E_WALLS "Map Walls are not closed"
+# define E_D_PLAYER "1 player only"
 
 typedef enum e_error
 {
@@ -61,6 +62,7 @@ typedef enum e_error
 	OPEN_ERR,
 	DUP_ERR,
 	WALLS_ERR,
+	D_PLAYER_ERR,
 }			t_error;
 
 typedef struct s_map
