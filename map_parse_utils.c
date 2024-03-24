@@ -175,8 +175,8 @@ char	**re_build_map(int fd)
 	if(!temp_map)
 		return (NULL);
 	map = remove_map_empty_lines(temp_map);
-	if (!map)
-		return (free_array(temp_map), NULL);
 	//free_array(temp_map);
+	if (!map)
+		return (NULL);
 	return (map);
 }
