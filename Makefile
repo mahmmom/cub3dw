@@ -2,11 +2,11 @@ ifndef VERPOSE
 .SILENT:
 endif
 
-NAME = cub3d
+NAME = cub3D
 
-SRC =	main.c init.c error.c \
-		parsing.c color.c parsing_utils.c parsing_utils2.c\
-		map_parse.c map_parse_utils.c map_parse_utils2.c\
+SRC =	main.c error.c \
+		texture.c color.c texture_utils.c texture_utils2.c\
+		map_parse.c map_parse_utils.c map_parse_utils2.c free.c\
 		GNL/get_next_line.c GNL/get_next_line_utils.c \
 
 OBJS = $(SRC:.c=.o)

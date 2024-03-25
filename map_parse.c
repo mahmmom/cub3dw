@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 20:03:38 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/21 19:46:46 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:59:21 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	get_map(t_data *data, int fd)
 		return (error_exit(MAP_ERR), MAP_ERR);
 	if (final_2dmap(temp_map) != CORRECT)
 		return (free_array(temp_map), MAP_ERR);
-	free_array(temp_map);
+	
+	//free_array(temp_map);
 	return (CORRECT);
 }

@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:41:27 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/21 21:22:49 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:17:21 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ char	**function_to_name(char *line, int fd)
 	temp_map = NULL;
 	while (line)
 	{
+		if(!is_map_char_line(line))
+			return (free_array(temp_map), free(line), NULL);
 		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
 				* sizeof(char *));
 		if (temp_map == NULL)
 			return (free(line), NULL);
-		if(!is_map_char_line(line))
-			return (free_array(temp_map), free(line), NULL);
 		temp_map[i] = ft_strtrim(line, "\n");
 		free(line);
 		line = get_next_line(fd);
@@ -145,10 +145,9 @@ char	**remove_map_empty_lines(char **map)
 		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
 				* sizeof(char *));
 		if (temp_map == NULL)
-			return (free(map), NULL);
+			return (NULL);
 		if(!is_empty_line(map[i]))
 			temp_map[i] = ft_strdup(map[i]);
-		free(map[i]);
 		i++;
 	}
 	temp_map[i] = NULL;
@@ -175,8 +174,8 @@ char	**re_build_map(int fd)
 	if(!temp_map)
 		return (NULL);
 	map = remove_map_empty_lines(temp_map);
-	//free_array(temp_map);
 	if (!map)
-		return (NULL);
+		return (free_array(temp_map), NULL);
+	free_array(temp_map);
 	return (map);
 }

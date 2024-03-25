@@ -12,44 +12,13 @@
 
 #include "cub3d.h"
 
-void	free_array(char **str)
-{
-	int	i;
-
-	i = 0;
-	if(!str || !*str)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		str[i] = NULL;
-		i++;
-	}
-	free(str);
-}
-
-void	clean_exit(t_data *data)
-{
-	if (data->comp.no)
-		free(data->comp.no);
-	if (data->comp.so)
-		free(data->comp.so);
-	if (data->comp.we)
-		free(data->comp.we);
-	if (data->comp.es)
-		free(data->comp.es);
-	if (data->map.map_data)
-		free_array(data->map.map_data);
-	exit(EXIT_FAILURE);
-}
-
 void	print_error(char *msg)
 {
 	printf("Error\n");
 	printf("%s\n", msg);
 }
 
-void	error_exit(enum e_error	value)
+void	print_error1(enum e_error	value)
 {
 	if (value == ARG_ERR)
 		return (print_error(E_ARG));
@@ -71,19 +40,37 @@ void	error_exit(enum e_error	value)
 		return (print_error(E_DUPLICATE));
 	else if (value == EMPTY_ERR)
 		return (print_error(E_EMPTY));
-	else if (value == WALLS_ERR)
+}
+
+void	print_error2(enum e_error	value)
+{
+	if (value == WALLS_ERR)
 		return (print_error(E_WALLS));
 	else if (value == D_PLAYER_ERR)
 		return (print_error(E_D_PLAYER));
-	else
-		return (print_error(E_INVALID));
+	else if (value == MAP_SPACE_ERR)
+		return (print_error(E_MAP_SPACE));
 }
 
-// void free_ptr(void **ptr)
-// {
-//     if (*ptr != NULL)
-// 	{
-//         free(*ptr);
-//         *ptr = NULL;
-//     }
-// }
+void	error_exit(enum e_error value)
+{
+	if (value < 10)
+		print_error1(value);
+	else
+	 	print_error2(value);
+}
+
+void	clean_exit_error(t_data *data)
+{
+	if (data->comp.no)
+		free(data->comp.no);
+	if (data->comp.so)
+		free(data->comp.so);
+	if (data->comp.we)
+		free(data->comp.we);
+	if (data->comp.es)
+		free(data->comp.es);
+	if (data->map.map_data)
+		free_array(data->map.map_data);
+	exit(EXIT_FAILURE);
+}

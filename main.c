@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:28:18 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/21 14:58:06 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:06:50 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int main(int ac, char **av)
 	}
 	init_data(&data);
 	if (parse_map(&data, av[1]) != CORRECT)
-		clean_exit(&data);
+		clean_exit_error(&data);
 	clean_exit(&data);
 }

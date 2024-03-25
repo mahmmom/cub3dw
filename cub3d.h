@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:28:23 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/21 14:47:01 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:06:38 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define E_DUPLICATE "Duplicate Map Element"
 # define E_WALLS "Map Walls are not closed"
 # define E_D_PLAYER "1 player only"
+# define E_MAP_SPACE "Invalid map space"
 
 typedef enum e_error
 {
@@ -63,6 +64,7 @@ typedef enum e_error
 	DUP_ERR,
 	WALLS_ERR,
 	D_PLAYER_ERR,
+	MAP_SPACE_ERR,
 }			t_error;
 
 typedef struct s_map
@@ -122,6 +124,7 @@ t_data		*init_args(void);
 
 // Error handler
 void		error_exit(enum e_error value);
+void		clean_exit_error(t_data *data);
 void		print_error(char *msg);
 
 // Free

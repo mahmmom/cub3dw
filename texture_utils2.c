@@ -37,7 +37,6 @@ int	array_width(char **arry)
 			len = ft_strlen(arry[i]);
 		i++;
 	}
-	printf("len = [%ld]\n", len);
 	return (len);
 }
 
@@ -48,7 +47,7 @@ void    print_array(char **str)
 	i = 0;
 	while (str[i])
 	{
-		printf("Array [%i] = %s\n", i, str[i]);
+		printf("Array = [%s]\n", str[i]);
 		i++;
 	}
 }
