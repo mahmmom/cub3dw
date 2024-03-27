@@ -114,12 +114,13 @@ int			comp_exist(char **array, char *str);
 // Map
 int			get_map(t_data *data, int fd);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-char		**re_build_map(int fd);
+char		**build_map(int fd);
 char		**parse_new_map(char **map);
 int			is_map_char(char **line);
 int			is_map_char_line(char *line);
 int			is_empty_line(char *line);
-int			final_2dmap(t_data *data, char **map);
+int			check_middle_lines(char **map);
+int			final_map(t_data *data, char **map);
 void		map_to_struct(t_data *data, char **temp_map);
 
 // Colors

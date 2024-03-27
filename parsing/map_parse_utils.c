@@ -6,122 +6,123 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:41:27 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 16:54:57 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 22:47:35 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+int	walls_checker(char **map)
 {
-	void	*new_ptr;
+	size_t	i;
 
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	if (ptr == NULL)
-		return (malloc(new_size));
-	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	ft_memcpy(new_ptr, ptr, old_size);
-	ft_bzero(new_ptr + old_size, new_size - old_size);
-	free(ptr);
-	return (new_ptr);
+	i = -1;
+	while (map[++i])
+		if ((map[i][0] != '1' && map[i][0] != ' ') || (map[i][ft_strlen(map[i])
+				- 1] != '1' && map[i][ft_strlen(map[i]) - 1] != ' '))
+			return (0);
+	i = -1;
+	while (++i < ft_strlen(map[0]))
+		if (map[0][i] != '1' && map[0][i] != ' ')
+			return (0);
+	i = -1;
+	while (++i < ft_strlen(map[array_size(map) - 1]))
+		if (map[array_size(map) - 1][i] != '1' && map[array_size(map)
+			- 1][i] != ' ')
+			return (0);
+	return (1);
 }
 
-char	**function_to_name(char *line, int fd)
-{
-	int		i;
-	char	**temp_map;
-
-	i = 0;
-	temp_map = NULL;
-	while (line)
-	{
-		if (!is_map_char_line(line))
-			return (free_array(temp_map), free(line), NULL);
-		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
-				* sizeof(char *));
-		if (temp_map == NULL)
-			return (free(line), NULL);
-		temp_map[i] = ft_strtrim(line, "\n");
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	temp_map[i] = NULL;
-	return (temp_map);
-}
-
-int	check_middle_lines(char **map)
+int	player_double(char **map)
 {
 	int	i;
+	int	j;
 	int	flag;
 
-	i = 0;
+	i = -1;
 	flag = 0;
-	while (map[i])
+	while (map[++i])
 	{
-		if (flag == 0 && is_empty_line(map[i]))
-			flag++;
-		if (!is_empty_line(map[i]) && flag != 0)
-			return (0);
-		i++;
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
+				|| map[i][j] == 'W')
+				flag++;
+		}
+	}
+	if (flag != 1)
+		return (0);
+	return (1);
+}
+
+int	space_checker(char **map, int a, int i)
+{
+	while (map[++a])
+	{
+		i = -1;
+		while (map[a][++i])
+		{
+			if (map[a][i] == ' ')
+			{
+				if (map[a][i + 1] && (map[a][i + 1] != '1' && map[a][i
+						+ 1] != ' '))
+					return (0);
+				if (i != 0 && map[a][i - 1] && (map[a][i - 1] != '1' && map[a][i
+						- 1] != ' '))
+					return (0);
+				if (map[a + 1] && map[a + 1][i] && (map[a + 1][i] != '1'
+						&& map[a + 1][i] != ' '))
+					return (0);
+				if (a != 0 && map[a - 1] && map[a - 1][i] && (map[a
+						- 1][i] != '1' && map[a - 1][i] != ' '))
+					return (0);
+			}
+		}
 	}
 	return (1);
 }
 
-char	**remove_map_empty_lines(char **map)
+char	**rect_map(char **map)
 {
 	int		i;
-	char	**temp_map;
+	char	**tmp;
+	int		l;
+	int		w;
 
 	i = 0;
-	temp_map = NULL;
-	if (!check_middle_lines(map))
+	l = array_size(map);
+	w = array_width(map);
+	tmp = malloc(sizeof(char *) * (l + 1));
+	if (!tmp)
 		return (NULL);
 	while (map[i])
 	{
-		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
-				* sizeof(char *));
-		if (temp_map == NULL)
+		tmp[i] = malloc(sizeof(char) * (w + 1));
+		if (!tmp[i])
 			return (NULL);
-		if (!is_empty_line(map[i]))
-			temp_map[i] = ft_strdup(map[i]);
+		ft_memset(tmp[i], ' ', w);
+		tmp[i][w] = '\0';
+		ft_memcpy(tmp[i], map[i], ft_strlen(map[i]));
 		i++;
 	}
-	temp_map[i] = NULL;
-	return (temp_map);
+	tmp[i] = NULL;
+	return (tmp);
 }
 
-char	**re_build_map(int fd)
+int	final_map(t_data *data, char **map)
 {
-	char	**temp_map;
-	char	**map;
-	char	*line;
+	char	**tmp;
 
-	temp_map = NULL;
-	map = NULL;
-	line = get_next_line(fd);
-	if (!line)
-		return (NULL);
-	while (line && is_empty_line(line) == 1)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	temp_map = function_to_name(line, fd);
-	if (!temp_map)
-		return (NULL);
-	map = remove_map_empty_lines(temp_map);
-	if (!map)
-		return (free_array(temp_map), NULL);
-	free_array(temp_map);
-	return (map);
+	tmp = NULL;
+	if (!walls_checker(map))
+		return (error_exit(WALLS_ERR), WALLS_ERR);
+	if (!player_double(map))
+		return (error_exit(D_PLAYER_ERR), D_PLAYER_ERR);
+	tmp = rect_map(map);
+	if (!space_checker(tmp, -1, 0))
+		return (free_array(tmp), error_exit(MAP_SPACE_ERR), MAP_SPACE_ERR);
+	map_to_struct(data, tmp);
+	free_array(tmp);
+	return (CORRECT);
 }

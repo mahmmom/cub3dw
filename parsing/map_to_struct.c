@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:57:37 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 17:25:38 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 22:49:30 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	player_position(t_data *data)
 				data->map.p_x = j;
 				data->map.p_y = i;
 				data->map.p_dir = data->map.map_data[i][j];
+				data->map.map_data[i][j] = '0';
 			}
 		}
 	}
