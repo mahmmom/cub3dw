@@ -38,7 +38,7 @@
 # define E_EMPTY "Map is empty"
 # define E_TEXT "Invalid Texture input"
 # define E_TEXT_PATH "Texture Path doesn't exist"
-# define E_COLOR "Invalid Color Enter <Red>,<Green>,<Blue>\nvalue should be 0 <= color <= 255"
+# define E_COLOR "Enter F/C <R>,<G>,<B>\nvalue should be 0 <= color <= 255"
 # define E_INPUT "Invalid Input"
 # define E_MALLOC "Malloc Fail"
 # define E_OPEN "Cant open file"

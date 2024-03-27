@@ -74,9 +74,6 @@ int	convert_to_integer(char **components)
 	red = ft_atoi_rgb(components[0]);
 	green = ft_atoi_rgb(components[1]);
 	blue = ft_atoi_rgb(components[2]);
-	printf("Red = [%d]\n", red);
-	printf("Green = [%d]\n", green);
-	printf("Blue = [%d]\n", blue);
 	if (red < 0 || red > 255 || green < 0 || green > 255
 		|| blue < 0 || blue > 255)
 		return (-2);
@@ -106,6 +103,8 @@ int	check_color(t_data *data, char **array)
 	char	**temp;
 	char	*trim;
 	
+	if (array_size(array) != 2)
+		return (free_array(array), error_exit(COLOR_ERR), COLOR_ERR);
 	trim = parse_color_line(array);
 	if (count_commas(trim) != 2)
 		return (free(trim) ,free_array(array), error_exit(COLOR_ERR), COLOR_ERR);
@@ -113,8 +112,6 @@ int	check_color(t_data *data, char **array)
 	free(trim);
 	if (!temp)
 		return (free_array(array), error_exit(COLOR_ERR), COLOR_ERR);
-	if (array_size(temp) != 3)
-		return (free_array(array), free_array(temp), error_exit(COLOR_ERR), COLOR_ERR);
 	if (check_args(temp) == 0)
 		return (free_array(array), free_array(temp), error_exit(COLOR_ERR), COLOR_ERR);
 	if (data->comp.ceiling == -1 && ft_strncmp(array[0], "C", 1) == 0)
