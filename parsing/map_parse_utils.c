@@ -6,65 +6,11 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:41:27 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/25 16:17:21 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 16:54:57 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-
-int	is_empty_line(char *line)
-{
-	int	i;
-
-	i = 0;
-
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\v' && line[i] != '\f'
-			&& line[i] != '\r' && line[i] != '\n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	is_map_char(char **line)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (line[i])
-	{
-		j = 0;
-		while (line[i][j])
-		{
-			if (line[i][j] != '1' && line[i][j] != '0' && line[i][j] != 'N'
-				&& line[i][j] != 'S' && line[i][j] != 'E' && line[i][j] != 'W'
-				&& line[i][j] != ' ')
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	is_map_char_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != 'N'
-			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
-			&& line[i] != ' ' && line[i] != '\n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
+#include "../cub3d.h"
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
@@ -98,7 +44,7 @@ char	**function_to_name(char *line, int fd)
 	temp_map = NULL;
 	while (line)
 	{
-		if(!is_map_char_line(line))
+		if (!is_map_char_line(line))
 			return (free_array(temp_map), free(line), NULL);
 		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
 				* sizeof(char *));
@@ -139,14 +85,14 @@ char	**remove_map_empty_lines(char **map)
 	i = 0;
 	temp_map = NULL;
 	if (!check_middle_lines(map))
-			return (NULL);
+		return (NULL);
 	while (map[i])
 	{
 		temp_map = (char **)ft_realloc(temp_map, i * sizeof(char *), (i + 2)
 				* sizeof(char *));
 		if (temp_map == NULL)
 			return (NULL);
-		if(!is_empty_line(map[i]))
+		if (!is_empty_line(map[i]))
 			temp_map[i] = ft_strdup(map[i]);
 		i++;
 	}
@@ -171,7 +117,7 @@ char	**re_build_map(int fd)
 		line = get_next_line(fd);
 	}
 	temp_map = function_to_name(line, fd);
-	if(!temp_map)
+	if (!temp_map)
 		return (NULL);
 	map = remove_map_empty_lines(temp_map);
 	if (!map)

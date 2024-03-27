@@ -6,18 +6,18 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 21:41:15 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/25 21:42:00 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:22:22 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	free_array(char **str)
 {
 	int	i;
 
 	i = 0;
-	if(!str || !*str)
+	if (!str || !*str)
 		return ;
 	while (str[i])
 	{

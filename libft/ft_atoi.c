@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 16:49:01 by mohamoha          #+#    #+#             */
-/*   Updated: 2023/08/17 12:07:10 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:20:34 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	ft_atoi(const char *str)
 		sign = 1 - 2 * (str[i++] == '-');
 	while ((str[i] >= '0' && str[i] <= '9') && str[i])
 	{
-		if ((result > LONG_MAX / 10) 
-			|| (result == LONG_MAX / 10 && (str[i] - '0') > LONG_MAX % 10))
+		if ((result > LONG_MAX / 10) || (result == LONG_MAX / 10 && (str[i]
+					- '0') > LONG_MAX % 10))
 		{
 			if (sign == 1)
 				return (-1);

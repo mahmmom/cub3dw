@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 14:54:56 by wahmed            #+#    #+#             */
-/*   Updated: 2024/03/18 20:49:14 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:20:25 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# include<unistd.h>
-# include<string.h>
-# include<stdlib.h>
-# include"../libft/libft.h"
+# include "../libft/libft.h"
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 int		len(char *s);

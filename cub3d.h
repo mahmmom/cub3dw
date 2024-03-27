@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wahmed <wahmed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 19:28:23 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/25 21:06:38 by mohamoha         ###   ########.fr       */
+/*   Created: 2024/03/07 19:28:23 by wahmed          #+#    #+#             */
+/*   Updated: 2024/03/27 20:17:46 by wahmed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,17 @@
 # define EPSILON 0.0001
 
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
+# define E_EMPTY "Map is empty"
 # define E_MAP_EXT "Invalid Map file extension\nPlease Enter: *.cub"
 # define E_MAP "Invalid Map"
-# define E_EMPTY "Map is empty"
+# define E_MAP_CHAR "Invalid Map Element"
 # define E_TEXT "Invalid Texture input"
 # define E_TEXT_PATH "Texture Path doesn't exist"
-# define E_COLOR "Enter F/C <R>,<G>,<B>\nvalue should be 0 <= color <= 255"
+# define E_COLOR "Enter F/C <R>,<G>,<B>\nvalue should be >= 0 && <= 255"
 # define E_INPUT "Invalid Input"
 # define E_MALLOC "Malloc Fail"
-# define E_OPEN "Cant open file"
+# define E_D_OPEN "Argument can't be a directory"
+# define E_F_OPEN "Cant open file"
 # define E_INVALID "Invalid Error type"
 # define E_DUPLICATE "Duplicate Map Element"
 # define E_WALLS "Map Walls are not closed"
@@ -58,9 +60,10 @@ typedef enum e_error
 	MAP_CHAR_ERR,
 	TEXT_ERR,
 	TEXT_PATH_ERR,
-	COLOR_ERR,
+	C_ERR,
 	MALLOC_ERR,
-	OPEN_ERR,
+	OPEN_D_ERR,
+	OPEN_F_ERR,
 	DUP_ERR,
 	WALLS_ERR,
 	D_PLAYER_ERR,
@@ -71,6 +74,9 @@ typedef struct s_map
 {
 	int		height;
 	int		width;
+	int		p_x;
+	int		p_y;
+	char	p_dir;
 	char	**map_data;
 }			t_map;
 
@@ -111,13 +117,15 @@ void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		**re_build_map(int fd);
 char		**parse_new_map(char **map);
 int			is_map_char(char **line);
+int			is_map_char_line(char *line);
 int			is_empty_line(char *line);
-int			final_2dmap(char **map);
-
+int			final_2dmap(t_data *data, char **map);
+void		map_to_struct(t_data *data, char **temp_map);
 
 // Colors
 int			check_color(t_data *data, char **array);
 int			count_commas(char *str);
+char		*join_args(char **str);
 
 // Initialize
 t_data		*init_args(void);
@@ -134,5 +142,6 @@ void		free_ptr(void **ptr);
 
 // Print Array
 void		print_array(char **str);
+void		print_map_comp(t_data *data);
 
 #endif

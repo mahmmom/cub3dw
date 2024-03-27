@@ -4,9 +4,11 @@ endif
 
 NAME = cub3D
 
-SRC =	main.c error.c \
-		texture.c color.c texture_utils.c texture_utils2.c\
-		map_parse.c map_parse_utils.c map_parse_utils2.c free.c\
+SRC =	main.c \
+		error_handle/error.c  error_handle/free.c \
+		parsing/texture.c parsing/color.c parsing/texture_utils.c parsing/texture_utils2.c\
+		parsing/map_parse.c parsing/map_parse_utils.c parsing/map_parse_utils2.c \
+		parsing/map_parse_utils3.c parsing/map_to_struct.c\
 		GNL/get_next_line.c GNL/get_next_line_utils.c \
 
 OBJS = $(SRC:.c=.o)

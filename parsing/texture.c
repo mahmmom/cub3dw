@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wahmed <wahmed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 15:50:34 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/25 16:06:50 by mohamoha         ###   ########.fr       */
+/*   Created: 2024/03/07 15:50:34 by wahmed          #+#    #+#             */
+/*   Updated: 2024/03/27 21:03:25 by wahmed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	check_map_ext(char *input)
 {
@@ -23,28 +23,12 @@ int	check_map_ext(char *input)
 	return (CORRECT);
 }
 
-void	print_texture(t_data *data)
-{
-	printf("North = %s\n", data->comp.no);
-	printf("South = %s\n", data->comp.so);
-	printf("East = %s\n", data->comp.es);
-	printf("West = %s\n", data->comp.we);
-	printf("Ceiling Color = %d\n", data->comp.ceiling);
-	printf("Floor Color = %d\n", data->comp.floor);
-}
-
 int	check_texture(t_data *data, char **array)
 {
 	if (array_size(array) != 2)
-	{
-		free_array(array);
-		return (error_exit(TEXT_ERR), TEXT_ERR);
-	}
+		return (free_array(array), error_exit(TEXT_ERR), TEXT_ERR);
 	if (texture_path(array[1]) == 0)
-	{
-		free_array(array);
-		return (error_exit(TEXT_ERR), TEXT_ERR);
-	}
+		return (free_array(array), error_exit(TEXT_ERR), TEXT_PATH_ERR);
 	if ((ft_strncmp(array[0], "NO", 2) == 0) && !data->comp.no)
 		data->comp.no = ft_strdup(array[1]);
 	else if ((ft_strncmp(array[0], "SO", 2) == 0) && !data->comp.so)
@@ -54,27 +38,9 @@ int	check_texture(t_data *data, char **array)
 	else if ((ft_strncmp(array[0], "EA", 2) == 0) && !data->comp.es)
 		data->comp.es = ft_strdup(array[1]);
 	else
-	{
-		free_array(array);
-		return (error_exit(DUP_ERR), DUP_ERR);
-	}
+		return (free_array(array), error_exit(DUP_ERR), DUP_ERR);
 	free_array(array);
 	return (CORRECT);
-}
-
-int	open_file(char *file_name)
-{
-	int	temp;
-
-	if (check_map_ext(file_name) != CORRECT)
-		return (error_exit(MAP_EXT_ERR), -1);
-	temp = open(file_name, O_DIRECTORY);
-	if (temp >= 0)
-		return (error_exit(OPEN_ERR), -1);
-	temp = open(file_name, O_RDONLY);
-	if (temp < 0)
-		return (error_exit(OPEN_ERR), -1);
-	return (temp);
 }
 
 static int	parse_line(t_data *data, char *map_line)
@@ -95,11 +61,23 @@ static int	parse_line(t_data *data, char *map_line)
 	else if (comp_exist(array, "C"))
 		return (check_color(data, array));
 	else
-	{
-		free_array(array);
-		return (error_exit(MAP_ERR), MAP_ERR);
-	}
+		return (free_array(array), error_exit(MAP_CHAR_ERR), MAP_CHAR_ERR);
 	return (CORRECT);
+}
+
+int	open_file(char *file_name)
+{
+	int	fd;
+
+	if (check_map_ext(file_name) != CORRECT)
+		return (error_exit(MAP_EXT_ERR), -1);
+	fd = open(file_name, O_DIRECTORY);
+	if (fd > 0)
+		return (close(fd), error_exit(OPEN_D_ERR), -1);
+	fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+		return (close(fd), error_exit(OPEN_F_ERR), -1);
+	return (fd);
 }
 
 int	parse_map(t_data *data, char *file_name)
@@ -110,7 +88,7 @@ int	parse_map(t_data *data, char *file_name)
 
 	fd = open_file(file_name);
 	if (fd == -1)
-		return (OPEN_ERR);
+		return (OPEN_F_ERR);
 	line = get_next_line(fd);
 	if (!line)
 		return (close(fd), error_exit(EMPTY_ERR), EMPTY_ERR);
@@ -122,10 +100,10 @@ int	parse_map(t_data *data, char *file_name)
 			return (free(map_line), close(fd), MAP_ERR);
 		free(map_line);
 		if (all_comp_found(data) == 1)
-				break ;
+			break ;
 		line = get_next_line(fd);
 	}
-	if(get_map(data, fd) != CORRECT)
+	if (get_map(data, fd) != CORRECT)
 		return (close(fd), MAP_ERR);
 	return (close(fd), CORRECT);
 }
