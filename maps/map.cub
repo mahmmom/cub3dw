@@ -4,11 +4,11 @@ F 250,10,0
 
 NO ./textures/Wadha.xpm
 SO ./textures/Black_Hole.xpm
+C 255,255,100
 WE ./textures/Mohamed.xpm
 EA ./textures/Mohamed.xpm
 
 
-C 255,255,100
 
 
         1111111111111111111111111

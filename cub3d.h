@@ -26,11 +26,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define PI 3.1415926535
-# define PI2 PI / 2
-# define PI3 3 * PI / 2
-# define DR 0.0174533 // 1 Degree to RAD
-# define EPSILON 0.0001
+# define W_WIDTH 1024
+# define W_HEIGHT 1024
+# define RESOLUTION 1024
+# define TILE_SIZE 64
+# define TEXTURE_SIZE 64
+# define MOVE_SPEED 40
+# define ROTATE_SPEED 0.2
+# define HORIZONTAL 0
+# define VERTICAL 1
 
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
 # define E_EMPTY "Map is empty"
@@ -70,6 +74,34 @@ typedef enum e_error
 	MAP_SPACE_ERR,
 }			t_error;
 
+typedef struct s_img
+{
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_img;
+
+typedef struct s_player
+{
+	double				x;
+	double				y;
+	double				dx;
+	double				dy;
+	double				angle;
+	double				fov;
+}						t_player;
+
+typedef struct s_ray
+{
+	double				x;
+	double				y;
+	double				angle;
+	double				len;
+	int					hit;
+}						t_ray;
+
 typedef struct s_map
 {
 	int		height;
@@ -94,6 +126,9 @@ typedef struct s_data
 {
 	t_map	map;
 	t_comp	comp;
+	t_img	img;
+	void	*mlx;
+	void	*win;
 }			t_data;
 
 // Parsing
