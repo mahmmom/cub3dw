@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:50:18 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 22:50:57 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:06:55 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ void	print_map_comp(t_data *data)
 	print_array(data->map.map_data);
 	printf("Player y = [%d]\n", data->map.p_y);
 	printf("Player x = [%d]\n", data->map.p_x);
-	printf("Player dir = [%d]\n", data->map.p_dir);
+	printf("Player dir = [%c]\n", data->map.p_dir);
 }

@@ -43,12 +43,13 @@ int	key_press(int keycode, t_data *data)
 	return (0);
 }
 
-int	julia_track(int x, int y, t_data *fractal)
+int	mouse_track(int x, int y, t_data *data)
 {
+		(void)data;
 		if (x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
 		{
 			//TO DO For Mouse
-			//game_start(fractal);
+			//game_start(data);
 		}
 	return (0);
 }

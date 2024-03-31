@@ -10,7 +10,10 @@ void	my_pixel_put(int x, int y, t_img *img, int color)
 
 void    game_render(int x, int y, t_data *data)
 {
-
+	(void)x;
+	(void)y;
+	(void)data;
+	return ;
 }
 
 void	game_start(t_data *data)
