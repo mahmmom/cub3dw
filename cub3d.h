@@ -36,6 +36,15 @@
 # define HORIZONTAL 0
 # define VERTICAL 1
 
+# define ESC_KEY 53
+# define D_KEY 124
+# define A_KEY 123
+# define W_KEY 126
+# define S_KEY 125
+# define R_KEY 44
+# define MOUSE_UP 5
+# define MOUSE_DOWN 4
+
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
 # define E_EMPTY "Map is empty"
 # define E_MAP_EXT "Invalid Map file extension\nPlease Enter: *.cub"
@@ -78,12 +87,12 @@ typedef struct s_img
 {
 	void		*img;
 	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
+	int			bpp;
+	int			line_len;
 	int			endian;
 }				t_img;
 
-typedef struct s_player
+typedef struct s_p
 {
 	double				x;
 	double				y;
@@ -91,7 +100,7 @@ typedef struct s_player
 	double				dy;
 	double				angle;
 	double				fov;
-}						t_player;
+}						t_p;
 
 typedef struct s_ray
 {
@@ -127,8 +136,12 @@ typedef struct s_data
 	t_map	map;
 	t_comp	comp;
 	t_img	img;
+	t_p		p;
+	t_ray	r;
 	void	*mlx;
 	void	*win;
+	double	shift_x;
+	double	shift_y;
 }			t_data;
 
 // Parsing
@@ -165,6 +178,19 @@ char		*join_args(char **str);
 
 // Initialize
 t_data		*init_args(void);
+
+//MLX
+void    mlx_set(t_data *data);
+void	data_set(t_data *data);
+
+// Render
+void	game_start(t_data *data);
+void    game_render(int x, int y, t_data *data);
+
+// Hooks
+int	close_press(t_data *data);
+int	key_press(int keycode, t_data *data);
+
 
 // Error handler
 void		error_exit(enum e_error value);

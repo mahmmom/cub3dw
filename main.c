@@ -40,5 +40,7 @@ int	main(int ac, char **av)
 	init_data(&data);
 	if (parse_map(&data, av[1]) != CORRECT)
 		clean_exit_error(&data);
+	mlx_set(&data);
+	mlx_loop(data.mlx);
 	clean_exit(&data);
 }

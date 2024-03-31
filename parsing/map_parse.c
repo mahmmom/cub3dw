@@ -42,6 +42,8 @@ char	**fd_to_tmp_map(char *line, int fd)
 
 	i = 0;
 	temp_map = NULL;
+	if(!line)
+		return (NULL);
 	while (line)
 	{
 		if (!is_map_char_line(line))
@@ -91,13 +93,15 @@ char	**build_map(int fd)
 	temp_map = NULL;
 	map = NULL;
 	line = get_next_line(fd);
-	if (!line)
-		return (NULL);
+	// if (!line)
+	// 	return (NULL);
 	while (line && is_empty_line(line) == 1)
 	{
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (!line)
+		return (NULL);
 	temp_map = fd_to_tmp_map(line, fd);
 	if (!temp_map)
 		return (NULL);
