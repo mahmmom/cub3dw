@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:57:37 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 22:49:30 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:41:54 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ void	map_to_struct(t_data *data, char **temp_map)
 {
 	save_map_to_struct(data, temp_map);
 	save_map_info_to_struct(data);
-	print_map_comp(data);
 }

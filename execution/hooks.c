@@ -1,4 +1,5 @@
 #include "../cub3d.h"
+#include <stdio.h>
 
 int	close_press(t_data *data)
 {
@@ -25,20 +26,101 @@ int	close_press(t_data *data)
 // 	return (0);
 // }
 
+void	move_left(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = data->map.p_x/TILE_SIZE;
+	y = data->map.p_y/TILE_SIZE;
+	if (data->map.map_data[y][x-1] == '0')
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE) - 1;
+		data->map.p_y = (data->map.p_y/TILE_SIZE);
+	}
+	else
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE);	
+	}
+}
+
+void	move_right(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = data->map.p_x/TILE_SIZE;
+	y = data->map.p_y/TILE_SIZE;
+	if (data->map.map_data[y][x+1] == '0')
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE) + 1;
+		data->map.p_y = (data->map.p_y/TILE_SIZE);
+	}
+	else
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE);	
+	}
+}
+
+void	move_up(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = data->map.p_x/TILE_SIZE;
+	y = data->map.p_y/TILE_SIZE;
+	if (data->map.map_data[y-1][x] == '0')
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE) - 1;
+	}
+	else
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE);	
+	}
+}
+
+void	move_down(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = data->map.p_x/TILE_SIZE;
+	y = data->map.p_y/TILE_SIZE;
+	if (data->map.map_data[y+1][x] == '0')
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE) + 1;
+	}
+	else
+	{
+		data->map.p_x = (data->map.p_x/TILE_SIZE);
+		data->map.p_y = (data->map.p_y/TILE_SIZE);	
+	}
+}
+
 int	key_press(int keycode, t_data *data)
 {
+	printf("key = %d\n", keycode);
 	if (keycode == ESC_KEY)
 		close_press(data);
 	else if (keycode == A_KEY)
-		data->shift_x += 0.5;
+		move_left(data);
 	else if (keycode == D_KEY)
-		data->shift_x -= 0.5;
+		move_right(data);
 	else if (keycode == W_KEY)
-		data->shift_y -= 0.5;
+		move_up(data);
 	else if (keycode == S_KEY)
-		data->shift_y += 0.5;
+		move_down(data);
 	else if (keycode == R_KEY)
 		data_set(data);
+	else
+		return (0);
+	mlx_clear_window(data->mlx, data->win);
+	//print_array(data->map.map_data);
 	game_start(data);
 	return (0);
 }

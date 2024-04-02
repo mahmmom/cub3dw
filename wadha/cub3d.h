@@ -15,38 +15,37 @@
 
 # include "GNL/get_next_line.h"
 # include "libft/libft.h"
-# include "minilibx/mlx.h"
+# include "minilibx/mlx.h" // MLX library
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/errno.h>
 
-# define BLACK 0x000000
-# define WHITE 0xFFFFFF
+# define WIDTH 1024
+# define HEIGHT 1024
+# define MAPWIDTH 12
+# define MAPHEIGHT 12
+# define GRID 64
+# define PI 3.14159265359
+// # define RESOLUTION 1024
+// # define TILE_SIZE 64
+// # define TEXTURE_SIZE 64
+// # define MOVE_SPEED 40
+// # define ROTATE_SPEED 0.2
+// # define HORIZONTAL 0
+// # define VERTICAL 1
 
-# define W_WIDTH 640
-# define W_HEIGHT 640
-# define RES 640
-# define TILE_SIZE 64
-# define TEXTURE_SIZE 64
-# define MOVE_SPEED 40
-# define ROTATE_SPEED 0.2
-# define HORIZONTAL 0
-# define VERTICAL 1
-# define FOV 60 // field of view
-# define ROTATION_SPEED 0.045 // rotation speed
-# define PLAYER_SPEED 4 // player speed
-# define NUM_RAYS 120
 
-# define ESC_KEY 53
-# define D_KEY 124
-# define A_KEY 123
-# define W_KEY 126
-# define S_KEY 125
-# define R_KEY 44
-# define MOUSE_UP 5
-# define MOUSE_DOWN 4
+// # define ESC_KEY 53
+// # define D_KEY 124
+// # define A_KEY 123
+// # define W_KEY 126
+// # define S_KEY 125
+// # define R_KEY 44
+// # define MOUSE_UP 5
+// # define MOUSE_DOWN 4
 
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
 # define E_EMPTY "Map is empty"
@@ -90,38 +89,52 @@ typedef struct s_img
 {
 	void		*img;
 	char		*addr;
-	int			bpp;
-	int			line_len;
-	int			endian;
+	int			bpp[4];
+	int			line_len[4];
+	int			endian[4];
+	int		img_height[4];
+	int		img_width[4];
 }				t_img;
 
 typedef struct s_p
 {
 	double				x;
 	double				y;
-	double				plane_x;
-	double				plane_y;
 	double				dx;
 	double				dy;
+	double				angle;
 	double				fov;
 }						t_p;
 
 typedef struct s_ray
 {
-	double				x;
-	double				y;
-	double				len;
-	int					hit;
+	double	sidedistx;
+	double	sidedisty;
+	double	deltadistx;
+	double	deltadisty;
+	double	perpwalldist;
+	int		side;
+	int		stepx;
+	int		stepy;
+	double	step;
+	int		texx;
+	int		texy;
+	double	texpos;
+	double	wallx;
+	int		x;
+	int		y;
 }						t_ray;
 
 typedef struct s_map
 {
-	int		height;
-	int		width;
+	// int		height;
+	// int		width;
 	int		p_x;
 	int		p_y;
 	char	p_dir;
 	char	**map_data;
+	  int mapy;
+    int mapx;
 }			t_map;
 
 typedef struct s_comp
@@ -145,6 +158,34 @@ typedef struct s_data
 	void	*win;
 	double	shift_x;
 	double	shift_y;
+	int		*texture[4];
+	void	*ptr[4];
+		char	*no_path;
+	char	*so_path;
+	char	*we_path;
+	char	*ea_path;
+	//   char **map;
+    double dirx;   // Player's direction x-component
+    double diry;   // Player's direction y-component
+    double planex; // Player's plane x-component
+    double planey; // Player's plane y-component
+	double move_speed;
+	double rotate;
+	double	raydirx;
+	double	raydiry;
+	double	posx;
+	double	posy;
+	int		line_start;
+	int		line_end;
+	int		buffer[HEIGHT][WIDTH];
+	char	*address;
+	int		line_l;
+	int bp;
+	int f_color;
+	int c_color;
+	int end;
+
+
 }			t_data;
 
 // Parsing
@@ -155,14 +196,14 @@ void		remove_newline(char **str);
 int			all_comp_found(t_data *data);
 void		comp_error(t_data *data);
 
-// Texture Parse
+// Texture
 int			check_texture(t_data *data, char **array);
 int			texture_path(char *path);
 int			array_size(char **str);
 int			array_width(char **arry);
 int			comp_exist(char **array, char *str);
 
-// Map Parse
+// Map
 int			get_map(t_data *data, int fd);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		**build_map(int fd);
@@ -174,7 +215,7 @@ int			check_middle_lines(char **map);
 int			final_map(t_data *data, char **map);
 void		map_to_struct(t_data *data, char **temp_map);
 
-// Color Parse
+// Colors
 int			check_color(t_data *data, char **array);
 int			count_commas(char *str);
 char		*join_args(char **str);
@@ -185,7 +226,6 @@ t_data		*init_args(void);
 //MLX
 void    mlx_set(t_data *data);
 void	data_set(t_data *data);
-void	render_scene(t_data *data);
 
 // Render
 void	game_start(t_data *data);
@@ -209,5 +249,26 @@ void		free_ptr(void **ptr);
 // Print Array
 void		print_array(char **str);
 void		print_map_comp(t_data *data);
+
+//the excution part by wadha and mohammed
+void    set_text(t_data *data);
+void	set_player_dir(t_data *data, int j, int k);
+void set_things(t_data *data);
+int	raycast(t_data *data);
+void	init_rayc(t_ray *rayc);
+void	init_var(t_data *data, t_ray *rayc, int x);
+void	get_side_dist(t_data *data, t_ray *rayc);
+void	ft_dda(t_ray *rayc, t_data *data);
+void	get_line_dist(t_data *data, t_ray *rayc, int x);
+void	init_line(t_data *cub, t_ray *rayc);
+int	ret_color(t_data *cub, t_ray *rayc);
+void	draw_line(t_data *data, int x);
+void	ft_put_pixel(t_data *data, int x, int y, int color);
+int	cub_key_press(int keycode, t_data *data);
+void	ft_rotate(t_data *data, int keycode);
+void	rotate_left(t_data *data);
+void	ft_move_vert(t_data *data, int keycode);
+void	ft_move_hori(t_data *data, int keycode);
+
 
 #endif
