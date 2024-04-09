@@ -21,33 +21,45 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
+/*========================== Defines ==========================*/
+//Colors
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
+# define ORANGE 0xFFA500
+# define PURPLE 0x800080
+# define SKY_BLUE 0x87CEEB
+# define LAVENDER 0xE6E6FA
+# define LIME_GREEN 0x32CD32
+# define TURQUOISE 0x40E0D0
+# define HOT_PINK 0xFF69B4
+# define YELLOW_GREEN 0x9ACD32
 
+//Screen
 # define W_WIDTH 640
 # define W_HEIGHT 640
 # define RES 640
 # define TILE_SIZE 64
-# define TEXTURE_SIZE 64
-# define MOVE_SPEED 40
-# define ROTATE_SPEED 0.2
-# define HORIZONTAL 0
-# define VERTICAL 1
-# define FOV 60 // field of view
-# define ROTATION_SPEED 0.045 // rotation speed
-# define PLAYER_SPEED 4 // player speed
-# define NUM_RAYS 120
+# define TEX_SIZE 64
+# define texWidth 64
+# define texHeight 64
+# define MOVESPEED 0.0125
+# define ROTSPEED 0.015
 
+//Buttons
 # define ESC_KEY 53
-# define D_KEY 124
-# define A_KEY 123
-# define W_KEY 126
-# define S_KEY 125
+# define D_KEY 2
+# define A_KEY 0
+# define W_KEY 13
+# define S_KEY 1
+# define LEFT_KEY 123
+# define RIGHT_KEY 124
 # define R_KEY 44
 # define MOUSE_UP 5
 # define MOUSE_DOWN 4
 
+//Errors
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
 # define E_EMPTY "Map is empty"
 # define E_MAP_EXT "Invalid Map file extension\nPlease Enter: *.cub"
@@ -65,7 +77,9 @@
 # define E_WALLS "Map Walls are not closed"
 # define E_D_PLAYER "1 player only"
 # define E_MAP_SPACE "Invalid map space"
+# define E_MLX_IMG "mlx image failed"
 
+/*========================== Structs ==========================*/
 typedef enum e_error
 {
 	CORRECT,
@@ -84,34 +98,79 @@ typedef enum e_error
 	WALLS_ERR,
 	D_PLAYER_ERR,
 	MAP_SPACE_ERR,
+	MLX_START_ERR,
+	MLX_WIN_ERR,
+	MLX_IMG_ERR,
 }			t_error;
+
+enum e_texture_index
+{
+	NORTH = 0,
+	SOUTH = 1,
+	EAST = 2,
+	WEST = 3
+};
+
 
 typedef struct s_img
 {
 	void		*img;
-	char		*addr;
+	int			*addr;
 	int			bpp;
 	int			line_len;
 	int			endian;
 }				t_img;
 
-typedef struct s_p
+typedef struct s_tex
 {
-	double				x;
-	double				y;
-	double				plane_x;
-	double				plane_y;
-	double				dx;
-	double				dy;
-	double				fov;
-}						t_p;
+	char			*north;
+	char			*south;
+	char			*west;
+	char			*east;
+	int				*floor;
+	int				*ceiling;
+	int				size;
+	int				index;
+	double			step;
+	double			pos;
+	int				x;
+	int				y;
+}				t_tex;
+
+typedef struct	s_player
+{
+	char	dir;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	int		has_moved;
+	int		move_x;
+	int		move_y;
+	int		rotate;
+}				t_p;
 
 typedef struct s_ray
 {
-	double				x;
-	double				y;
-	double				len;
-	int					hit;
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	sidedist_x;
+	double	sidedist_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	wall_dist;
+	double	wall_x;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
 }						t_ray;
 
 typedef struct s_map
@@ -136,17 +195,21 @@ typedef struct s_comp
 
 typedef struct s_data
 {
-	t_map	map;
-	t_comp	comp;
-	t_img	img;
-	t_p		p;
-	t_ray	r;
-	void	*mlx;
-	void	*win;
-	double	shift_x;
-	double	shift_y;
+	t_map		map;
+	t_comp		comp;
+	t_img		img;
+	t_p			p;
+	t_ray		r;
+	t_tex		texinfo;
+	void		*mlx;
+	void		*win;
+	int			win_height;
+	int			win_width;
+	int			**texture_pixels;
+	int			**textures;
 }			t_data;
 
+/*========================== Functions ==========================*/
 // Parsing
 int			validate_map(t_data *data, char *file_name);
 int			check_map_ext(char *input);
@@ -181,20 +244,39 @@ char		*join_args(char **str);
 
 // Initialize
 t_data		*init_args(void);
+void		init_img_clean(t_img *img);
+void		init_mlx(t_data *data);
+void		init_texture_img(t_data *data, t_img *image, char *path);
+void		init_texinfo(t_tex *textures);
+void		init_img(t_data *data, t_img *image, int width, int height);
+void		init_ray(t_ray *ray);
+void		init_texture_pixels(t_data *data);
+void		init_textures(t_data *data);
+void		init_player_direction(t_data *data);
+void		init_data(t_data *data);
 
 //MLX
-void    mlx_set(t_data *data);
-void	data_set(t_data *data);
-void	render_scene(t_data *data);
+void		mlx_set(t_data *data);
+void		data_set(t_data *data);
+void		render_scene(t_data *data);
 
 // Render
-void	game_start(t_data *data);
-void    game_render(int x, int y, t_data *data);
+int			game_start(t_data *data);
+void		game_render(int x, int y, t_data *data);
+void		update_texture_pixels(t_data *data, t_tex *tex, t_ray *ray, int x);
+int			raycasting(t_p *player, t_data *data);
+void		render_raycast(t_data *data);
+int			render(t_data *data);
+
+// Movement
+int			validate_move(t_data *data, double new_x, double new_y);
+int			rotate_player(t_data *data, double rotdir);
+int			move_player(t_data *data);
 
 // Hooks
-int	close_press(t_data *data);
-int	key_press(int keycode, t_data *data);
-
+int			close_press(t_data *data);
+int			key_press(int keycode, t_data *data);
+void		listen_for_input(t_data *data);
 
 // Error handler
 void		error_exit(enum e_error value);
@@ -205,6 +287,7 @@ void		print_error(char *msg);
 void		clean_exit(t_data *data);
 void		free_array(char **str);
 void		free_ptr(void **ptr);
+void		free_array_void(void **tab);
 
 // Print Array
 void		print_array(char **str);

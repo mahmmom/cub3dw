@@ -54,6 +54,8 @@ void	print_error2(enum e_error value)
 		return (print_error(E_D_PLAYER));
 	else if (value == MAP_SPACE_ERR)
 		return (print_error(E_MAP_SPACE));
+	else if (value == MLX_IMG_ERR)
+		return (print_error(E_MLX_IMG));
 }
 
 void	error_exit(enum e_error value)

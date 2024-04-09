@@ -1,28 +1,17 @@
 
-F 250,10,0
+F 250,110,0
+
+C 20,50,100
+
+NO ./textures/factoryironstone1.xpm
+SO ./textures/factoryironstone1.xpm
+WE ./textures/bookshelf_02.xpm
+EA ./textures/bookshelf_02.xpm
 
 
-NO ./textures/Wadha.xpm
-SO ./textures/Black_Hole.xpm
-C 255,255,100
-WE ./textures/Mohamed.xpm
-EA ./textures/Mohamed.xpm
 
-1111111111
-1000000001
-1000000001
-1000000001
-1000000001
-1001000001
-101N000001
-1001000001
-1000000001
-1000000001
-1000000001
-1000000001
-1000000001
-1000000001
-1000000001
-1000000001
-1000000001
-1111111111
+
+111111
+100001
+10W001
+111111

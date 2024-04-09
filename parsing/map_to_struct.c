@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:57:37 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/02 15:41:54 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:16:56 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	player_position(t_data *data)
 		{
 			if (!player_char(data->map.map_data[i][j]))
 			{
-				data->map.p_x = j;
-				data->map.p_y = i;
-				data->map.p_dir = data->map.map_data[i][j];
+				data->p.pos_x = j;
+				data->p.pos_y = i;
+				data->p.dir = data->map.map_data[i][j];
 				data->map.map_data[i][j] = '0';
 			}
 		}
@@ -67,4 +67,5 @@ void	map_to_struct(t_data *data, char **temp_map)
 {
 	save_map_to_struct(data, temp_map);
 	save_map_info_to_struct(data);
+	init_player_direction(data);
 }

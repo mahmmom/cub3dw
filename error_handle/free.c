@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 21:41:15 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 17:22:22 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:34:09 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ void	free_array(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_array_void(void **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	if (tab)
+	{
+		free(tab);
+		tab = NULL;
+	}
 }
 
 void	clean_exit(t_data *data)

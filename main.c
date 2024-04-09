@@ -6,13 +6,13 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:28:18 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/02 16:21:22 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:09:54 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_data(t_data *data)
+void	init_parsing_data(t_data *data)
 {
 	data->comp.no = NULL;
 	data->comp.so = NULL;
@@ -37,11 +37,15 @@ int	main(int ac, char **av)
 		error_exit(ARG_ERR);
 		exit(EXIT_FAILURE);
 	}
+	init_parsing_data(&data);
 	init_data(&data);
 	if (parse_map(&data, av[1]) != CORRECT)
 		clean_exit_error(&data);
-	mlx_set(&data);
-	game_start(&data);
+	init_mlx(&data);
+	init_textures(&data);
+	render_raycast(&data);
+	listen_for_input(&data);
+	mlx_loop_hook(data.mlx, render, &data);
 	mlx_loop(data.mlx);
 	clean_exit(&data);
 }
