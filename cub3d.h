@@ -35,7 +35,7 @@
 # define W_WIDTH 800
 # define W_HEIGHT 800
 # define TEX_SIZE 64
-# define MOVESPEED 0.0625
+# define MOVESPEED 0.018
 # define ROTSPEED 0.015
 
 // Buttons
