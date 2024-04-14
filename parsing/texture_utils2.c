@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:50:18 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/28 17:06:55 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:27:53 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void	print_array(char **str)
 	}
 }
 
-void	print_map_comp(t_data *data)
-{
-	printf("North = [%s]\n", data->comp.no);
-	printf("South = [%s]\n", data->comp.so);
-	printf("East = [%s]\n", data->comp.es);
-	printf("West = [%s]\n", data->comp.we);
-	printf("Ceiling Color = [%d]\n", data->comp.ceiling);
-	printf("Floor Color = [%d]\n", data->comp.floor);
-	print_array(data->map.map_data);
-	printf("Player y = [%d]\n", data->map.p_y);
-	printf("Player x = [%d]\n", data->map.p_x);
-	printf("Player dir = [%c]\n", data->map.p_dir);
-}
+// void	print_map_comp(t_data *data)
+// {
+// 	printf("North = [%s]\n", data->comp.no);
+// 	printf("South = [%s]\n", data->comp.so);
+// 	printf("East = [%s]\n", data->comp.es);
+// 	printf("West = [%s]\n", data->comp.we);
+// 	printf("Ceiling Color = [%d]\n", data->comp.ceiling);
+// 	printf("Floor Color = [%d]\n", data->comp.floor);
+// 	print_array(data->map.map_data);
+// 	printf("Player y = [%d]\n", data->map.p_y);
+// 	printf("Player x = [%d]\n", data->map.p_x);
+// 	printf("Player dir = [%c]\n", data->map.p_dir);
+// }

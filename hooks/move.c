@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:47:07 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/08 21:49:25 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/14 21:20:37 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ static int	move_player_forward(t_data *data)
 	double	new_x;
 	double	new_y;
 
-	new_x = data->p.pos_x + data->p.dir_x * MOVESPEED;
-	new_y = data->p.pos_y + data->p.dir_y * MOVESPEED;
+	printf("data->p.dir_x = [%f]\n", data->p.dir_x);
+	printf("data->p.dir_y = [%f]\n", data->p.dir_y);
+	new_x = data->p.pos_x + (data->p.dir_x * MOVESPEED);
+	printf("new_x = [%f]\n", new_x);
+	new_y = data->p.pos_y + (data->p.dir_y * MOVESPEED);
+	printf("new_y = [%f]\n", new_y);
 	return (validate_move(data, new_x, new_y));
 }
 

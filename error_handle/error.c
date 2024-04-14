@@ -68,15 +68,10 @@ void	error_exit(enum e_error value)
 
 void	clean_exit_error(t_data *data)
 {
-	if (data->comp.no)
-		free(data->comp.no);
-	if (data->comp.so)
-		free(data->comp.so);
-	if (data->comp.we)
-		free(data->comp.we);
-	if (data->comp.es)
-		free(data->comp.es);
-	if (data->map.map_data)
-		free_array(data->map.map_data);
+	free_str(data);
+	if (data->texture_pixels)
+		free_array_void((void**)data->texture_pixels);
+	if (data->textures)
+		free_array_void((void**)data->textures);
 	exit(EXIT_FAILURE);
 }

@@ -18,36 +18,27 @@
 # include "minilibx/mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 /*========================== Defines ==========================*/
-//Colors
+// Colors
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
 # define ORANGE 0xFFA500
 # define PURPLE 0x800080
 # define SKY_BLUE 0x87CEEB
-# define LAVENDER 0xE6E6FA
-# define LIME_GREEN 0x32CD32
-# define TURQUOISE 0x40E0D0
-# define HOT_PINK 0xFF69B4
-# define YELLOW_GREEN 0x9ACD32
 
-//Screen
-# define W_WIDTH 640
-# define W_HEIGHT 640
-# define RES 640
-# define TILE_SIZE 64
+// Screen
+# define W_WIDTH 800
+# define W_HEIGHT 800
 # define TEX_SIZE 64
-# define texWidth 64
-# define texHeight 64
-# define MOVESPEED 0.0125
+# define MOVESPEED 0.0625
 # define ROTSPEED 0.015
 
-//Buttons
+// Buttons
 # define ESC_KEY 53
 # define D_KEY 2
 # define A_KEY 0
@@ -55,11 +46,8 @@
 # define S_KEY 1
 # define LEFT_KEY 123
 # define RIGHT_KEY 124
-# define R_KEY 44
-# define MOUSE_UP 5
-# define MOUSE_DOWN 4
 
-//Errors
+// Errors
 # define E_ARG "Please Enter: <./cub3d> <maps/*.cub>"
 # define E_EMPTY "Map is empty"
 # define E_MAP_EXT "Invalid Map file extension\nPlease Enter: *.cub"
@@ -103,7 +91,7 @@ typedef enum e_error
 	MLX_IMG_ERR,
 }			t_error;
 
-enum e_texture_index
+enum		e_texture_index
 {
 	NORTH = 0,
 	SOUTH = 1,
@@ -111,33 +99,32 @@ enum e_texture_index
 	WEST = 3
 };
 
-
 typedef struct s_img
 {
-	void		*img;
-	int			*addr;
-	int			bpp;
-	int			line_len;
-	int			endian;
-}				t_img;
+	void	*img;
+	int		*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_img;
 
 typedef struct s_tex
 {
-	char			*north;
-	char			*south;
-	char			*west;
-	char			*east;
-	int				*floor;
-	int				*ceiling;
-	int				size;
-	int				index;
-	double			step;
-	double			pos;
-	int				x;
-	int				y;
-}				t_tex;
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	int		*floor;
+	int		*ceiling;
+	int		size;
+	int		index;
+	double	step;
+	double	pos;
+	int		x;
+	int		y;
+}			t_tex;
 
-typedef struct	s_player
+typedef struct s_player
 {
 	char	dir;
 	double	pos_x;
@@ -150,7 +137,7 @@ typedef struct	s_player
 	int		move_x;
 	int		move_y;
 	int		rotate;
-}				t_p;
+}			t_p;
 
 typedef struct s_ray
 {
@@ -171,15 +158,12 @@ typedef struct s_ray
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
-}						t_ray;
+}			t_ray;
 
 typedef struct s_map
 {
 	int		height;
 	int		width;
-	int		p_x;
-	int		p_y;
-	char	p_dir;
 	char	**map_data;
 }			t_map;
 
@@ -195,18 +179,18 @@ typedef struct s_comp
 
 typedef struct s_data
 {
-	t_map		map;
-	t_comp		comp;
-	t_img		img;
-	t_p			p;
-	t_ray		r;
-	t_tex		texinfo;
-	void		*mlx;
-	void		*win;
-	int			win_height;
-	int			win_width;
-	int			**texture_pixels;
-	int			**textures;
+	t_map	map;
+	t_comp	comp;
+	t_img	img;
+	t_p		p;
+	t_ray	r;
+	t_tex	texinfo;
+	void	*mlx;
+	void	*win;
+	int		win_height;
+	int		win_width;
+	int		**texture_pixels;
+	int		**textures;
 }			t_data;
 
 /*========================== Functions ==========================*/
@@ -255,7 +239,7 @@ void		init_textures(t_data *data);
 void		init_player_direction(t_data *data);
 void		init_data(t_data *data);
 
-//MLX
+// MLX
 void		mlx_set(t_data *data);
 void		data_set(t_data *data);
 void		render_scene(t_data *data);
@@ -288,6 +272,7 @@ void		clean_exit(t_data *data);
 void		free_array(char **str);
 void		free_ptr(void **ptr);
 void		free_array_void(void **tab);
+void		free_str(t_data *data);
 
 // Print Array
 void		print_array(char **str);

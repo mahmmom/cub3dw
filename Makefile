@@ -17,7 +17,7 @@ OBJS = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iminilibx -Ilibft -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iminilibx -Ilibft #-g3 -fsanitize=address
 
 FFLAGS = -Lminilibx -lmlx -framework OpenGL -framework AppKit
 

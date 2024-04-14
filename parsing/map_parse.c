@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 20:03:38 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/03/27 22:47:25 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:30:21 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**fd_to_tmp_map(char *line, int fd)
 
 	i = 0;
 	temp_map = NULL;
-	if(!line)
+	if (!line)
 		return (NULL);
 	while (line)
 	{
@@ -93,8 +93,6 @@ char	**build_map(int fd)
 	temp_map = NULL;
 	map = NULL;
 	line = get_next_line(fd);
-	// if (!line)
-	// 	return (NULL);
 	while (line && is_empty_line(line) == 1)
 	{
 		free(line);

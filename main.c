@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:28:18 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/09 17:09:54 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/13 21:47:12 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@ void	init_parsing_data(t_data *data)
 	data->comp.ceiling = -1;
 	data->map.height = 0;
 	data->map.width = 0;
-	data->map.p_x = 0;
-	data->map.p_y = 0;
-	data->map.p_dir = 0;
 }
 
 int	main(int ac, char **av)
 {
 	t_data	data;
 
+	(void)av;
 	if (ac != 2)
 	{
 		error_exit(ARG_ERR);

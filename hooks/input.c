@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:50:22 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/09 15:50:13 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:33:42 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	key_press_handler(int key, t_data *data)
 {
 	if (key == ESC_KEY)
 		clean_exit(data);
-	if (key ==LEFT_KEY)
+	if (key == LEFT_KEY)
 		data->p.rotate -= 1;
 	if (key == RIGHT_KEY)
 		data->p.rotate += 1;
@@ -62,7 +62,6 @@ void	listen_for_input(t_data *data)
 	mlx_hook(data->win, 2, 1L << 0, key_press_handler, data);
 	mlx_hook(data->win, 3, 1L << 1, key_release_handler, data);
 }
-
 
 // // static void	wrap_mouse_position(t_data *data, int x, int y)
 // // {

@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:52:33 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/08 22:02:03 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:31:06 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	init_ray(t_ray *ray)
 	ray->draw_start = 0;
 	ray->draw_end = 0;
 }
-
 
 static void	init_player(t_p *player)
 {

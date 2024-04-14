@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:44:55 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/09 17:51:45 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/14 21:10:32 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ void	render_raycast(t_data *data)
 	raycasting(&data->p, data);
 	render_frame(data);
 }
-
-// void	render_images(t_data *data)
-// {
-// 	render_raycast(data);
-// }
 
 int	render(t_data *data)
 {

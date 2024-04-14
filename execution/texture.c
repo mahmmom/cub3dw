@@ -6,7 +6,7 @@
 /*   By: mohamoha <mohamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:45:33 by mohamoha          #+#    #+#             */
-/*   Updated: 2024/04/09 17:12:07 by mohamoha         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:38:45 by mohamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	init_texture_pixels(t_data *data)
 	i = 0;
 	while (i < data->win_height)
 	{
-		data->texture_pixels[i] = ft_calloc(data->win_width + 1,
-				sizeof * data->texture_pixels);
+		data->texture_pixels[i] = malloc(sizeof(t_tex) * (data->win_width + 1));
 		if (!data->texture_pixels[i])
 			return (error_exit(MALLOC_ERR), clean_exit_error(data));
 		i++;
 	}
+	data->texture_pixels[i] = NULL;
 }
 
 static void	get_texture_index(t_data *data, t_ray *ray)
