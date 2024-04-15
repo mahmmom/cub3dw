@@ -37,6 +37,7 @@
 # define TEX_SIZE 64
 # define MOVESPEED 0.018
 # define ROTSPEED 0.015
+# define MOUSE_EDGE 20
 
 // Buttons
 # define ESC_KEY 53
